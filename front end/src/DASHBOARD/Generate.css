@@ -1,0 +1,97 @@
+body {
+    background: rgb(210, 207, 226);
+    background: radial-gradient(
+      circle,
+      rgb(231, 231, 237) 0%,
+      rgb(236, 240, 241) 0%,
+      rgb(238, 238, 241) 100%
+    );
+    box-shadow: #0563b4;
+    align-items: center;
+    justify-content: center;
+  }
+  .submitform{
+   align-items: center; 
+  }
+  .img{
+  display: flex;
+  }
+  .dragdrop{
+    margin-top: 25%;
+    display: flex;
+  }
+  #abc{
+    display: flex !important;
+    align-items: center;
+    /* height: 100vh; */
+    width: 100%; 
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 7%;
+  }
+  .logout{
+    margin-left: 50%;
+ align-items:center;
+    display: flex;
+  }
+  .hii{
+    margin-top: 5%;
+  }
+  .tag{
+    padding-top: 20%;
+  }
+  #abc > form {
+    width: 70%;
+    border: 1px solid #dfdfdf;
+    padding: 20px;
+    border-radius: 5px;
+    background: #fff;
+  }
+  .button1{
+    margin-top: 10%;
+    display: flex;
+
+  }
+  pre {
+    width: 70%;
+    color: #fff;
+    font-size: larger;
+  }
+  .begin{
+    margin-top:50px;
+  }
+  .course{
+    margin:auto;
+    max-width: 80%;
+    text-align: center;
+    justify-content: center;
+  }
+  .sem{
+    margin:auto;
+    max-width: 40%;
+    text-align: center;
+    justify-content: center;
+  }
+  .component{
+    color: rgb(0, 0, 0);
+    text-align: center;
+  }
+  p {
+    color: red;
+  }
+  h3{
+    margin-top: 4%;
+  }
+  .courses{
+    max-width: 250px;
+    justify-content: center;
+    align-items: center;
+    display: column;
+  }
+
+  .select2{
+    min-width:80%;
+    padding-top: 5%;
+    justify-content: center;
+    align-items: center;
+  }
