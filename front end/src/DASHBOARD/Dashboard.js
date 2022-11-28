@@ -6,12 +6,18 @@ import react, { useEffect, useState } from "react";
 
 const Dashboard = () => {
   const [array, setArray] = useState([]);
-
+  const [course,setCourse]=useState();
+  const [generate,setGenerate]=useState(false);
   const generatedata = async () => {
+    setGenerate(true);
     await axios.get("http://localhost:8080/courseCoordinator").then((res) => {
-      console.log(res.data);
+      console.log(res.data.data);
       setArray(res.data);
     });
+
+    await axios.get("http://localhost:8080/getcourse").then((res) =>{
+     console.log(res.data);
+    })
   };
   return (
     <div class="container2">
@@ -19,8 +25,9 @@ const Dashboard = () => {
         <img src={pic} className="dashimg" />
       </div>
       <div>
+      <h3 class='ineligible'>Ineligibility list</h3>
         <table className="table">
-          <thead className="thead-dark">
+          <thead className="thead">
             <tr>
               <th>SL</th>
               <th>NAME</th>

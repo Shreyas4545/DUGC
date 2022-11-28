@@ -18,128 +18,126 @@ const Sem = [
   { label: "5", value: 5 },
 ];
 
-
 const Course11 = [
   {
     label: 'BASIC ELECTRICAL ENGINEERING',
-    value: 'bee',
+    value: 'BASIC ELECTRICAL ENGINEERING',
   },
-  { label: 'ENGINEERING MECHANICS', value: 'em' },
-  { label: 'SINGLE VARIABLE CALCULUS', value: 'svc' },
+  { label: 'ENGINEERING MECHANICS', value: 'ENGINEERING MECHANICS' },
+  { label: 'SINGLE VARIABLE CALCULUS', value: 'SINGLE VARIABLE CALCULUS' },
   {
     label: 'ENGINEERING PHYSICS',
-    value: 'ep',
+    value: 'ENGINEERING PHYSICS',
   },
   {
     label: 'DESIGN THINKING FOR SOCIAL INNOVATION',
-    value: 'si',
+    value: 'DESIGN THINKING FOR SOCIAL INNOVATION',
   },
   {
     label: 'C PROGRAMMING FOR PROBLEM SOLVING',
-    value: 'c',
+    value: 'C PROGRAMMING FOR PROBLEM SOLVING',
   },
 ]
 const Course12 = [
   {
-    label: 'PROBLEM SOLVING WITH DATA STRUCTURES  ',
-    value: 'pdsa  ',
+    label: 'PROBLEM SOLVING WITH DATA STRUCTURES',
+    value: 'PROBLEM SOLVING WITH DATA STRUCTURES',
   },
-  { label: 'MULTIVARIABLE CALCULUS', value: 'mvc' },
+  { label: 'MULTIVARIABLE CALCULUS', value: 'MULTIVARIABLE CALCULUS' },
   {
     label: 'BASIC MECHANICAL ENGINEERING  ',
-    value: 'bme  ',
+    value: 'BASIC MECHANICAL ENGINEERING  ',
   },
   {
     label: 'PROFESSIONAL COMMUNICATION',
-    value: 'pc',
+    value: 'PROFESSIONAL COMMUNICATION',
   },
   {
     label: 'BASIC ELECTRONICS',
-    value: 'be',
+    value: 'BASIC ELECTRONICS',
   },
   {
     label: 'ENGINEERING CHEMISTRY',
-    value: 'ec',
+    value: 'ENGINEERING CHEMISTRY',
   },
   {
     label: 'ENGINEERING EXPLORATION',
-    value: 'exp',
+    value: 'ENGINEERING EXPLORATION',
   },
 ]
 const Course13 = [
   {
     label: 'GRAPH THEORY AND LINEAR ALGEBRA',
-    value: 'gtla',
+    value: 'GRAPH THEORY AND LINEAR ALGEBRA',
   },
-  { label: 'DATABASE MANAGEMENT SYSTEM', value: 'dbms' },
+  { label: 'DATABASE MANAGEMENT SYSTEM', value: 'DATABASE MANAGEMENT SYSTEM' },
   {
     label: 'DISCRETE MATHEMATICAL STRUCTURES',
-    value: 'dms',
+    value: 'DISCRETE MATHEMATICAL STRUCTURES',
   },
   {
     label: 'DATA STRUCTURES AND ALGORITHMS',
-    value: 'dsa',
+    value: 'DATA STRUCTURES AND ALGORITHMS',
   }
 ]
 const Course14 = [
   {
     label: 'APPLIED STATISTICS WITH R',
-    value: 'r',
+    value: 'APPLIED STATISTICS WITH R',
   },
   {
     label: 'OBJECT ORIENTED PROGRAMMING',
-    value: 'oop',
+    value: 'OBJECT ORIENTED PROGRAMMING',
   },
   {
     label: 'PRINCIPLES OF COMPILER DESIGN',
-    value: 'pocd',
+    value: 'PRINCIPLES OF COMPILER DESIGN',
   },
   {
     label: 'OPERATING SYSTEM PRINCIPLES AND PROGRAMMING',
-    value: 'os',
+    value: 'OPERATING SYSTEM PRINCIPLES AND PROGRAMMING',
   },
   {
     label: 'MICROCONTROLLER: PROGRAMMING AND INTERFACING',
-    value: 'mcp',
+    value: 'MICROCONTROLLER: PROGRAMMING AND INTERFACING',
   },
   {
     label: 'OBJECT ORIENTED PROGRAMMING LAB',
-    value: 'oopl',
+    value: 'OBJECT ORIENTED PROGRAMMING LAB',
   },
   {
     label: 'EXPLORATORY DATA ANALYSIS',
-    value: 'eda',
+    value: 'EXPLORATORY DATA ANALYSIS',
   },
 ]
-
 const Course15 = [
   {
     label: 'SYSTEM SOFTWARE',
-    value: 'ss',
+    value: 'SYSTEM SOFTWARE',
   },
   {
     label: 'WEB TECHNOLOGY',
-    value: 'wt',
+    value: 'WEB TECHNOLOGY',
   },
   {
     label: 'MACHINE LEARNING',
-    value: 'ml',
+    value: 'MACHINE LEARNING',
   },
   {
     label: 'INTERNET OF THINGS',
-    value: 'iot',
+    value: 'INTERNET OF THINGS',
   },
   {
     label: 'COMUPUTER NETWORKING',
-    value: 'cn',
+    value: 'COMUPUTER NETWORKING',
   },
   {
     label: 'SYSTEM SOFTWARE LAB',
-    value: 'ss',
+    value: 'SYSTEM SOFTWARE LAB',
   },
   {
     label: 'MINI PROJECT',
-    value: 'mp',
+    value: 'MINI PROJECT',
   }
 ]
 
@@ -169,12 +167,11 @@ const Generate = props => {
   }
   const navigate=useNavigate();
   function handleSubmit(event) {
-    
     event.preventDefault()
-    console.log("Hello")
     const url = 'http://localhost:8080/api/uploadfile';
     const formData = new FormData();
     formData.append('profile', file);
+    formData.append('course',course);
     // formData.append('fileName', file?.name);
     var config = {
       method: 'post',
@@ -185,7 +182,7 @@ const Generate = props => {
       data : formData
     };
     axios(config).then((response) => {
-      console.log(response.data);
+      console.log(response);
     }).catch(err => {
       console.log(err);
     });
@@ -207,8 +204,6 @@ const Generate = props => {
     }).catch(err=>{
       console.log(err);
     })
-
-    console.log(course);
     navigate("/Dashboard");
   }
   return (

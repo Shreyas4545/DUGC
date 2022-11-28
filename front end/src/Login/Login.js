@@ -1,6 +1,7 @@
 import "./Login.css";
 import pic from "../images/img1.jpg";
 import { useState, useEffect, useRef } from "react";
+import Select from 'react-select';
 import { useNavigate } from "react-router-dom";
 import { DownOutlined, SmileOutlined } from '@ant-design/icons';
 import { Dropdown, Menu, Space } from 'antd';
@@ -8,7 +9,11 @@ import axios from "axios"
 import React from "react";
 // import ReactDOM from "react-dom";
 
-  
+  const roles=[
+    {label:"Coordinator",value:"Coordinator"},
+    {label:"DUGC Member",value:"DUGC Member"}
+  ]
+
    const Shreyas= (props) => {
     const navigate=useNavigate();
     const form = useRef(null)
@@ -18,12 +23,22 @@ import React from "react";
   const [isSubmit, setIsSubmit] = useState(false);
   const [loginerr,setLoginErr]=useState();
   const [isloggedin,setIsLoggedin] = useState(false);
+  const [roleerr,setRoleerr]=useState("");
   const [inputs,setInputs]=useState({
     uemail:"",
     upass:"",
     urole:""
   });
-  
+  const [Crole,setRole] = useState();
+  const [Drole,setDrole]=useState();
+  const dropdownoption =(value) =>{
+    if(value=='Coordinator'){
+    setRole(value);
+    }
+    else{
+      setDrole(value);
+    }
+  }
   //capturing the values of input from login form
   const handleChange = (e) => {
     e.preventDefault();
@@ -32,12 +47,15 @@ import React from "react";
     const newdata={...inputs};
     newdata[e.target.name]=e.target.value;
     setInputs(newdata);
-    console.log(newdata);
   };
   
   //Function to check whether the given login details are correct or not
     const handleSubmit = (e) => {
     e.preventDefault();
+    if(!Crole && !Drole)
+    {
+      setRoleerr("Please select a role !");
+    }
     setFormErrors(validate(formValues));
     setIsSubmit(true);
     
@@ -48,10 +66,10 @@ import React from "react";
     }).then(res =>{
       setIsLoggedin(true);
       localStorage.setItem('token-info',JSON.stringify(formValues));
-      if(inputs.urole==="Coordinator"){
+      if(Crole==="Coordinator"){
       navigate("/Generate");
       }
-      else if(inputs.urole==="Dugcmember"){
+      else if(Drole==="DUGC Member"){
         navigate("/Dashboard1");
       }
     }).catch(err=>{
@@ -59,42 +77,6 @@ import React from "react";
     })
   };
 
-  <Menu
-    items={[
-      {
-        key: '1',
-        label: (
-          <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-            1st menu item
-          </a>
-        ),
-      },
-      {
-        key: '2',
-        label: (
-          <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-            2nd menu item (disabled)
-          </a>
-        ),
-        icon: <SmileOutlined />,
-        disabled: true,
-      },
-      {
-        key: '3',
-        label: (
-          <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-            3rd menu item (disabled)
-          </a>
-        ),
-        disabled: true,
-      },
-      {
-        key: '4',
-        danger: true,
-        label: 'a danger item',
-      },
-    ]}
-  />
     //Function to validate the form
    const validate = (values) => {
     const errors = {};
@@ -134,18 +116,16 @@ import React from "react";
             />
             <p>{formErrors.username}</p>
           </div>
-          <div className="field">
+          <div class="field">
           <label>Role</label>
-          <input type="text"
-          name="urole"
-          placeholder="Role"
-          required 
-          onChange={(e) => handleChange(e)}
-          autocomplete="off"
-          />
-          
-           <p>{formErrors.role}</p>
-          </div>
+  <Select className="course1" name="urole" placeholder="Please Select a Role" options={roles} 
+  onChange={(item) => {
+    dropdownoption(item.value)
+  }
+  }
+   />
+   <p>{roleerr}</p>
+</div>
           <div className="field">
             <label>Email</label>
             <input
@@ -157,8 +137,9 @@ import React from "react";
               required
               autocomplete="off"
             />
-            <p>{formErrors.email}</p>
           </div>
+          <p>{formErrors.email}</p>
+            <p>{loginerr}</p>
           <div className="field">
             <label>Password</label>
             <input
@@ -168,7 +149,6 @@ import React from "react";
               onChange={(e) => handleChange(e)}
               required
             />
-            <p>{formErrors.password}</p>
             <p>{loginerr}</p>
             <button className="fluid ui button blue" onClick={(e) => handleSubmit(e)}>Submit</button>
           </div>

@@ -28,7 +28,6 @@ const userSchema=new mongoose.Schema({
 const User=mongoose.model("User",userSchema);
 
 const fs = require('fs');
-csv = fs.readFileSync("cc.csv");
 const cors = require('cors')
 var express = require('express');
 const app = express();
@@ -60,9 +59,12 @@ var storage = multer.diskStorage(
 // const upload = multer({ dest: "uploads/" });
 const upload = multer({ storage: storage })
 app.use(express.static(__dirname + "../build"));
-
+let file1;
+let coursename;
 app.post("/api/uploadfile", upload.single("profile"), (req, res, next) => {
-    console.log(req.file.originalname);
+    coursename=req.body.course;
+    console.log(coursename);
+    file1=req.file.originalname;
     if(!req.file.originalname)
     {
         return res.status(401).json({
@@ -70,18 +72,11 @@ app.post("/api/uploadfile", upload.single("profile"), (req, res, next) => {
         message:"No file choosen"
         });
     }
-    res.sendStatus(200);
+    return res.status(200).json({
+        success:true,
+        message:"Successfully uploaded the file"
+    })
     console.log("file successfully uploaded !!");
-});
-
-app.get("/", (req, res)=>{
-    CSVToJSON().fromFile('cc.csv')
-    .then(users => {
-        let data = users;
-        res.send(data);
-    }).catch(err => {
-        console.log(err);
-    });
 });
 
 app.post("/login",async (req,res)=>{
@@ -103,14 +98,6 @@ app.post("/login",async (req,res)=>{
             });
     }
 });
-
-app.post("/submit",async (req,res)=>{
-  console.log(req.body.sem,req.body.course);
-  res.status(200).json({
-    message:"Success"
-  });
-})
-
 app.listen(8080, ()=>{
     console.log("Server is on");
 })
@@ -128,62 +115,24 @@ const fileSchema = {
         unique:true
     }
 };
-
-const consolidatedFileSchema = {
-    Name: String,
-    Usn: {type: String, unique: true},
-    Division: String,
-    course: {
-        SE: {
-            Attendance: Number,
-            CIE: Number
-        },
-        SS: {
-            Attendance: Number,
-            CIE: Number
-        }
-    }
-}
-
 const file = mongoose.model("file", fileSchema);
-const file1 = mongoose.model("file1", fileSchema);
-const consolatedFile = mongoose.model("consolatedFile", consolidatedFileSchema);
 
-
-let finalArray = [];
 let array = [];
-let array1 = [];
 
-
-
-    // app.get("/getCourse", async (req, res)=>{
-    //     let course = await req.body.val;
-    //     console.log(course);
-    // })
-
-    // app.post("/getSemester", async (req, res)=>{
-    //     let sem = await req.body.val;
-    //     console.log(sem);
-    // })
-
-
-// const course = getCourse();
+app.get("/getcourse",(req,res)=>{
+    console.log(coursename,"Hello My friend");
+    res.send("Success");
+})
 
 const courseCoordinatorUrl = `/courseCoordinator`;
 console.log(courseCoordinatorUrl);
-
 app.get(courseCoordinatorUrl, (req, res) => {
-    // const {sem, course} = req.body
-    // console.log(course);
-
-
-    CSVToJSON().fromFile("cc.csv")
+    coursename=req.body.courseData;
+    console.log(file1);
+    CSVToJSON().fromFile(`./build/${file1}`)
         .then(users => {
             let data = users;
-            // users is a JSON array
-            // log the JSON array
             for (let index = 0; index < data.length; index++) {
-
                 if(data[index].Attendance < 75 || data[index].CIE < 40 ){
                     array.push(new file({
                         SL: data[index].Sl,
@@ -192,13 +141,12 @@ app.get(courseCoordinatorUrl, (req, res) => {
                         Division: data[index].Division,
                         Attendance: data[index].Attendance,
                         Cie: data[index].CIE,
-                        Course: "",
+                        Course: coursename,
                         Rollno:data[index].Rollno
                     })  
                     )
                 }
             }
-
             file.insertMany(array, function (err) {
                 if (err) {
                     console.log(err);
@@ -206,18 +154,13 @@ app.get(courseCoordinatorUrl, (req, res) => {
                     console.log("Successss");
                 }
             })
-
             res.send(data);
             fileName=""
         }).catch(err => {
-            // log error if any
             console.log(err);
         });
-
 })
-
 const result = [];
-
 app.get("/details",(req,res) =>{
 const result1=file.find({});
 if(!result1)
