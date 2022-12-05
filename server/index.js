@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const formidable = require('formidable');
 const multer  = require('multer');
 
-const DB= "mongodb+srv://shreyas45:20169361@cluster0.yfdgevp.mongodb.net/dugcdb?retryWrites=true&w=majority"
+const DB= "mongodb://localhost:27017/courseCoordinatorDB"
 const connectDB = () => mongoose.connect(DB,{
     useNewUrlParser:true,
     useUnifiedTopology:true
@@ -105,36 +105,34 @@ app.listen(8080, ()=>{
 const fileSchema = {
     SL:String,
     Name: String,
-    Usn: {type: String, unique: true},
+    Usn: {type: String},
     Division: String,
     Attendance: String,
     Cie: String,
-    Course: String,
-    Rollno:{
+    Course: {
         type:String,
-        unique:true
+        unique: true
+    },
+    Rollno:{
+        type:String
     }
 };
 const file = mongoose.model("file", fileSchema);
 
 let array = [];
 
-app.get("/getcourse",(req,res)=>{
-    console.log(coursename,"Hello My friend");
-    res.send("Success");
-})
-
 const courseCoordinatorUrl = `/courseCoordinator`;
 console.log(courseCoordinatorUrl);
-app.get(courseCoordinatorUrl, (req, res) => {
-    coursename=req.body.courseData;
+app.get(courseCoordinatorUrl,async (req, res) => {
+    console.log(coursename);
     console.log(file1);
+    let arr =[]
     CSVToJSON().fromFile(`./build/${file1}`)
-        .then(users => {
+        .then(async users => {
             let data = users;
             for (let index = 0; index < data.length; index++) {
                 if(data[index].Attendance < 75 || data[index].CIE < 40 ){
-                    array.push(new file({
+                    arr.push(new file({
                         SL: data[index].Sl,
                         Name: data[index].Name,
                         Usn: data[index].USN,
@@ -147,7 +145,7 @@ app.get(courseCoordinatorUrl, (req, res) => {
                     )
                 }
             }
-            file.insertMany(array, function (err) {
+            await file.insertMany(arr, function (err) {
                 if (err) {
                     console.log(err);
                 } else {
@@ -159,6 +157,7 @@ app.get(courseCoordinatorUrl, (req, res) => {
         }).catch(err => {
             console.log(err);
         });
+
 })
 const result = [];
 app.get("/details",(req,res) =>{

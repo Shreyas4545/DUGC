@@ -36,7 +36,7 @@ const Course11 = [
   {
     label: 'C PROGRAMMING FOR PROBLEM SOLVING',
     value: 'C PROGRAMMING FOR PROBLEM SOLVING',
-  },
+  }
 ]
 const Course12 = [
   {
@@ -78,13 +78,13 @@ const Course13 = [
   {
     label: 'DATA STRUCTURES AND ALGORITHMS',
     value: 'DATA STRUCTURES AND ALGORITHMS',
+  },
+  {
+    label: 'C PROGRAMMING FOR PROBLEM SOLVING',
+    value: 'C PROGRAMMING FOR PROBLEM SOLVING',
   }
 ]
 const Course14 = [
-  {
-    label: 'APPLIED STATISTICS WITH R',
-    value: 'APPLIED STATISTICS WITH R',
-  },
   {
     label: 'OBJECT ORIENTED PROGRAMMING',
     value: 'OBJECT ORIENTED PROGRAMMING',
@@ -102,10 +102,6 @@ const Course14 = [
     value: 'MICROCONTROLLER: PROGRAMMING AND INTERFACING',
   },
   {
-    label: 'OBJECT ORIENTED PROGRAMMING LAB',
-    value: 'OBJECT ORIENTED PROGRAMMING LAB',
-  },
-  {
     label: 'EXPLORATORY DATA ANALYSIS',
     value: 'EXPLORATORY DATA ANALYSIS',
   },
@@ -114,10 +110,6 @@ const Course15 = [
   {
     label: 'SYSTEM SOFTWARE',
     value: 'SYSTEM SOFTWARE',
-  },
-  {
-    label: 'WEB TECHNOLOGY',
-    value: 'WEB TECHNOLOGY',
   },
   {
     label: 'MACHINE LEARNING',
@@ -134,10 +126,6 @@ const Course15 = [
   {
     label: 'SYSTEM SOFTWARE LAB',
     value: 'SYSTEM SOFTWARE LAB',
-  },
-  {
-    label: 'MINI PROJECT',
-    value: 'MINI PROJECT',
   }
 ]
 
@@ -204,7 +192,7 @@ const Generate = props => {
     }).catch(err=>{
       console.log(err);
     })
-    navigate("/Dashboard");
+    navigate("/Dashboard", {state:{courseDetails: courseArray[semester-1]}});
   }
   return (
     <div id="abc">

@@ -2,11 +2,14 @@ import pic from "../images/img1.jpg";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
+import { Navigate, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios"
 import "./Dashboard1.css"
       const Dashboard1 = () => {
 
         const [data, setData] = useState([])
+        const {state} = useLocation();
+        const {details} = state;
 
 const getData = () => {
   var config = {
@@ -38,11 +41,17 @@ useEffect(() => {
                   <th scope="col">Name</th>
                   <th scope="col">USN</th>
                   <th scope="col">Division</th>
-                  <th scope="col">Course 1</th>
+                  {/* <th scope="col">Course 1</th>
                   <th scope="col">Course 2</th>
                   <th scope="col">Course 3</th>
                   <th scope="col">Course 4</th>
                   <th scope="col">Course 5</th>
+                  <th scope="col">Course 6</th> */}
+                  {
+                    details && details?.map((item, key)=>{
+                      return <th scope="col">{item?.label}</th>
+                    })
+                  }
                 </tr>
               </thead>
               <tbody>
@@ -53,11 +62,12 @@ useEffect(() => {
                   <td>{item[0]?.Name}</td>
                   <td>{item[0]?.Usn}</td>
                   <td>{item[0]?.Division}</td>
-                  <td>Yes</td>
-                  <td>No</td>
-                  <td>No</td>
-                  <td>No</td>
-                  <td>No</td>
+                  <td>{item[0]?.Cie}</td>
+                  <td>{item[1]?.Cie}</td>
+                  <td>{item[2]?.Cie}</td>
+                  <td>{item[3]?.Cie}</td>
+                  <td>{item[4]?.Cie}</td>
+                  <td>{item[5]?.Cie}</td>
                 </tr>
                 })
               }

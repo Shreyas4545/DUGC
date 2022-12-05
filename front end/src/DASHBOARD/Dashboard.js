@@ -3,22 +3,25 @@ import axios from "axios";
 import "./Dashboard.css";
 // import { response } from "express";
 import react, { useEffect, useState } from "react";
+import { Navigate, useNavigate, useLocation } from "react-router-dom";
 
 const Dashboard = () => {
   const [array, setArray] = useState([]);
   const [course,setCourse]=useState();
   const [generate,setGenerate]=useState(false);
+  const navigate = useNavigate();
+  const {state} = useLocation();
+  const {courseDetails} = state;
   const generatedata = async () => {
     setGenerate(true);
     await axios.get("http://localhost:8080/courseCoordinator").then((res) => {
       console.log(res.data.data);
       setArray(res.data);
     });
-
-    await axios.get("http://localhost:8080/getcourse").then((res) =>{
-     console.log(res.data);
-    })
   };
+  const navigateDugc = () =>{
+    navigate('/Dashboard1', {state:{details: courseDetails}});
+  }
   return (
     <div class="container2">
       <div>
@@ -59,6 +62,9 @@ const Dashboard = () => {
       </div>
       <button onClick={() => generatedata()}>
         Generate the Ineligibility list
+      </button>
+      <button onClick={() => navigateDugc()}>
+        Dugc coordinator
       </button>
     </div>
   );
